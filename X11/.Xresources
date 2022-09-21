@@ -1,0 +1,30 @@
+URxvt.keyboard-select.clipboard:    true
+URxvt.perl-ext-common: ...,keyboard-select
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+
+URxvt*borderless: false
+URxvt*externalBorder: 0
+URxvt*internalBorder: 4
+URxvt*scrollBar: false
+URxvt*saveLines: 5000
+URxvt*font: 	xft:DejaVuSansMono:size=14:antialias=true
+
+*.foreground:	#C6C6C6
+*.background:	#1C1C1C
+*.coursorColor:	#444444
+*.color0:	#303030
+*.color8:	#444444
+*.color1:	#D75F5F
+*.color9:	#D75F5F
+*.color2:	#D75F5F
+*.color10:	#D75F5F
+*.color3:	#FFD75F
+*.color11:	#FFD75F
+*.color4:	#87AFD7
+*.color12:	#87AFD7
+*.color5:	#AFAFD7
+*.color13:	#AFAFD7
+*.color6:	#AFD7FF
+*.color14:	#AFD7FF
+*.color7:	#E4E4E4
+*.color15:	#FFFFFF
