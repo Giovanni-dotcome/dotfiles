@@ -1,4 +1,4 @@
-URxvt.keyboard-select.clipboard:    true
+URxvt.keyboard-seect.clipboard:    true
 URxvt.perl-ext-common: ...,keyboard-select
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
 
@@ -7,7 +7,7 @@ URxvt*externalBorder: 0
 URxvt*internalBorder: 4
 URxvt*scrollBar: false
 URxvt*saveLines: 5000
-URxvt*font: 	xft:DejaVuSansMono:size=14:antialias=true
+URxvt*font: xft:DejaVuSansMono:size=14:antialias=true
 
 *.foreground:	#C6C6C6
 *.background:	#1C1C1C
@@ -21,7 +21,7 @@ URxvt*font: 	xft:DejaVuSansMono:size=14:antialias=true
 *.color3:	#FFD75F
 *.color11:	#FFD75F
 *.color4:	#87AFD7
-*.color12:	#87AFD7
+*.colr12:	#87AFD7
 *.color5:	#AFAFD7
 *.color13:	#AFAFD7
 *.color6:	#AFD7FF
