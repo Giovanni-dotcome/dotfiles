@@ -7,3 +7,8 @@ ln -s ~/dotfiles/X11 ~/.config
 # i3
 rm -rf ~/.config/i3
 ln -s ~/dotfiles/i3 ~/.config
+
+# zsh
+mkdir -p ~/.config/zsh
+ln -sf ~/dotfiles/zsh/.zshenv ~/
+ln -sf ~/dotfiles/zsh/.zshrc ~/

@@ -28,7 +28,7 @@ exec --no-startup-id dex --autostart --environment i3
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -50,13 +50,14 @@ bindsym $mod+Return exec i3-sensible-terminal
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start dmenu (a program launcher)
+# start dmenu (program launcher)
 bindsym $mod+d exec --no-startup-id dmenu_run
-# A more modern dmenu replacement is rofi:
-# bindcode $mod+40 exec "rofi -modi drun,run -show drun"
-# There also is i3-dmenu-desktop which only displays applications shipping a
-# .desktop file. It is a wrapper around dmenu, so you need that installed.
-# bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
+
+# start ranger (file manager)
+bindsym $mod+Shift+Return exec --no-startup-id urxvt -e ranger
+
+# start firefox (web browser)
+bindsym $mod+Shift+f exec --no-startup-id firefox
 
 # change focus
 bindsym $mod+h focus left
@@ -152,8 +153,7 @@ workspace_auto_back_and_forth yes
 focus_follows_mouse no
 
 # lock screen
-set $i3lockwall i3lock -i ~/Downloads/wallpaper.png
-bindsym $mod+CTRL+Shift+1 exec --no-startup-id $i3lockwall
+set $i3lockwall i3lock -t -c 000000 -i ~/.config/i3/lockscreen.png
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -161,8 +161,8 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
 # wallpaper background
-exec --no-startup-id feh --no-fehbg --bg-fill \
-~/.config/i3/feh/wallpaper.jpg
+# exec --no-startup-id feh --no-fehbg --bg-fill \
+# ~/.config/i3/feh/wallpaper.jpg
 
 # remove borders from terminal
 for_window [class="URxvt*"] border pixel 1
@@ -176,11 +176,14 @@ for_window [class="Arandr"] floating enable
 mode "$mode_system" { 
     bindsym l exec --no-startup-id $i3lockwall, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    bindsym s exec --no-startup-id $i3lockwall && systemctl suspend, \ mode "default"
-    bindsym h exec --no-startup-id $i3lockwall && systemctl hibernate, \ mode "default"
+    bindsym s exec --no-startup-id systemctl suspend, \ mode "default"
+    bindsym h exec --no-startup-id systemctl hibernate, \ mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, \ mode "default"
+    bindsym CTRL+s exec --no-startup-id systemctl poweroff, \ mode "default"
     bindsym Return mode "default"
     bindsym Escape mode "default"
-    } bindsym $mod+BackSpace mode "$mode_system"
+    } 
+    bindsym $mod+BackSpace mode "$mode_system"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -261,11 +264,11 @@ set_from_resource $white2 color15 #ffffff Instead of using
 ########## # DESIGN # ########## 
 # hide borders hide_edge_borders both 
 # class         border      backgr.     text      indicat     child_border 
-client.focused  #333333     $black2 $white2 #285577 
-client.focused_inactive #333333 $background $foreground #484e50 
-client.unfocused #333333 #222222 #888888 #292d2e #222222 
-client.urgent $red1 $red1 $white2 $red1 $red1 
-client.placeholder #000000 #0c0c0c $white2 #000000 #0c0c0c
+#client.focused  #333333     $blue1 $white2 #285577 
+#client.focused_inactive #333333 $background $foreground #484e50 
+#client.unfocused #333333 #222222 #888888 #292d2e #222222 
+#client.urgent $red1 $red1 $white2 $red1 $red1 
+#client.placeholder #000000 #0c0c0c $white2 #000000 #0c0c0c
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -275,19 +278,21 @@ client.placeholder #000000 #0c0c0c $white2 #000000 #0c0c0c
 
 bar {
     status_command i3status --config ~/.config/i3/i3status.conf 
+
     # Disable all tray icons 
     tray_output none 
+
     # tray_output primary 
-    colors { 
-        background $black2 
-        statusline $white2 
-        separator $white2 
+  # colors { 
+   # background #000000 
+    # statusline $white2 
+     # separator $white2 
         # border background text 
-        focused_workspace $background $background $red1 
-        active_workspace $black2 $black1 $white2 
-        inactive_workspace $black1 $black2 $foreground 
-        urgent_workspace $red1 $red1 $white2 
-        binding_mode $background $red2 $white2 
-    }
+      #  focused_workspace $background $background $red1 
+      #  active_workspace $black2 $black1 $white2 
+     #   inactive_workspace $black1 $black2 $foreground 
+     #   urgent_workspace $red1 $red1 $white2 
+     #   binding_mode $background $red2 $white2 
+    #}
 }
 
