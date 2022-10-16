@@ -1,0 +1,8 @@
+alias ll='ls -lah'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+
+# doesn't work: /home/gio/.config/zsh/aliases:5: unknown file attribute: 1
+# alias d='dirs -v' for index ({1..9})
+# alias "$index"="cd +${index}"
