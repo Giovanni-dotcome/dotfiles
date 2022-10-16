@@ -2,6 +2,7 @@ alias ll='ls -lah'
 alias ga='git add'
 alias gc='git commit'
 alias gp='git push'
+alias gs='git status'
 
 # doesn't work: /home/gio/.config/zsh/aliases:5: unknown file attribute: 1
 # alias d='dirs -v' for index ({1..9})
