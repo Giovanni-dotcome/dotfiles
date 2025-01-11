@@ -1,0 +1,40 @@
+" to use this bindings run the following on tridactyl :installnative in Tridactyl
+" to check if correctly installed run :native
+
+sanitise tridactyllocal tridactylsync
+
+" keybindings
+bind --mode=normal i mode ignore
+bind --mode=ignore jk mode normal
+bind --mode=normal x tabclose
+bind --mode=normal X undo
+bind --mode=normal d scrollpage 0.5
+bind --mode=normal u scrollpage -0.5
+bind D tabduplicate
+bind j scrollline 4
+bind k scrollline -4
+
+set smothscroll true
+
+" Make Tridactyl work on more sites at the expense of some security
+set csp clobber
+fixamo_quiet
+set allowautofocus false
+set editorcmd floating-terminal $EDITOR
+set externalclipboardcmd wl-copy
+set yankto both
+
+
+
+" Ctrl-F should use the browser's native 'find' functionality.
+unbind <C-f>
+
+" But also support Tridactyl search too.
+bind --mode=normal / fillcmdline find
+bind ? fillcmdline find -?
+bind n findnext 1
+bind N findnext -1
+" Remove search highlighting.
+" bind ,<Space> nohlsearch
+" Use sensitive case. Smart case would be nice here, but it doesn't work.
+" set findcase sensitive
