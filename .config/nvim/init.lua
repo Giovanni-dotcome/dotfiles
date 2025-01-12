@@ -229,6 +229,10 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  -- TODO: add search for todo plugin
+  -- TODO: add surrounding.nvim
+  -- TODO: add harpoon plugin
+  -- TODO: search plugin
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'kevinhwang91/promise-async',
   'jiangmiao/auto-pairs',

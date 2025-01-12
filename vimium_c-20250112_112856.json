@@ -12,6 +12,7 @@
 		"#!no-check",
 		"map q LinkHints.activateSelect",
 		"map yi LinkHints.activateDownloadImage",
+		"map gx closeOtherTabs",
 		""
 	],
 	"searchEngines": [
@@ -34,12 +35,7 @@
 		"g: https://github.com/search?q=$s \\",
 		"  blank=https://github.com/ GitHub Repo",
 		"",
-		"\\:i: vimium://sed/s/^//,lower\\ $S re= Lower case",
 		"v.m|math: vimium://math\\ $S re= Calculate",
-		"v.p: vimium://parse\\ $S re= Redo Search",
-		"",
-		"js\\:|Js: javascript:\\ $S; JavaScript",
-		""
 	],
 	"vimSync": true
 }
