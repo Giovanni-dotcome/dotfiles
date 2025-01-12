@@ -189,6 +189,9 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', 'S', ':wa<CR>', { desc = 'Saves all buffers' })
+
+vim.api.nvim_set_keymap('n', '<leader>st', ':TodoTelescope<CR>', { noremap = true, silent = true })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -229,13 +232,49 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  -- TODO: add search for todo plugin
-  -- TODO: add surrounding.nvim
-  -- TODO: add harpoon plugin
-  -- TODO: search plugin
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'kevinhwang91/promise-async',
   'jiangmiao/auto-pairs',
+  {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local harpoon = require 'harpoon'
+
+      -- REQUIRED
+      harpoon:setup()
+      -- REQUIRED
+
+      vim.keymap.set('n', '<leader>a', function()
+        harpoon:list():add()
+      end)
+      vim.keymap.set('n', '<leader>h', function()
+        harpoon.ui:toggle_quick_menu(harpoon:list()) -- doesn't works
+      end)
+
+      vim.keymap.set('n', '<leader>1', function()
+        harpoon:list():select(1)
+      end)
+      vim.keymap.set('n', '<leader>2', function()
+        harpoon:list():select(2)
+      end)
+      vim.keymap.set('n', '<leader>3', function()
+        harpoon:list():select(3)
+      end)
+      vim.keymap.set('n', '<leader>4', function()
+        harpoon:list():select(4)
+      end)
+
+      -- Toggle previous & next buffers stored within Harpoon list
+      -- vim.keymap.set('n', '<C-S-P>', function()
+      --   harpoon:list():prev()
+      -- end)
+      -- vim.keymap.set('n', '<C-S-N>', function()
+      --   harpoon:list():next()
+      -- end)
+    end,
+  },
   {
     'MeanderingProgrammer/render-markdown.nvim',
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
@@ -289,41 +328,41 @@ require('lazy').setup({
       }
     end,
   },
-  {
-    'Pocco81/auto-save.nvim',
-    opts = {
-      enabled = true, -- start auto-save when the plugin is loaded (i.e. when your package manager loads it)
-      execution_message = {
-        message = function() -- message to print on save
-          return ('AutoSave: saved at ' .. vim.fn.strftime '%H:%M:%S')
-        end,
-        dim = 0.18, -- dim the color of `message`
-        cleaning_interval = 1250, -- (milliseconds) automatically clean MsgArea after displaying `message`. See :h MsgArea
-      },
-      trigger_events = { 'InsertLeave', 'TextChanged' }, -- vim events that trigger auto-save. See :h events
-      -- function that determines whether to save the current buffer or not
-      -- return true: if buffer is ok to be saved
-      -- return false: if it's not ok to be saved
-      condition = function(buf)
-        local fn = vim.fn
-        local utils = require 'auto-save.utils.data'
-
-        if fn.getbufvar(buf, '&modifiable') == 1 and utils.not_in(fn.getbufvar(buf, '&filetype'), {}) then
-          return true -- met condition(s), can save
-        end
-        return false -- can't save
-      end,
-      write_all_buffers = false, -- write all buffers when the current one meets `condition`
-      debounce_delay = 135, -- saves the file at most every `debounce_delay` milliseconds
-      callbacks = { -- functions to be executed at different intervals
-        enabling = nil, -- ran when enabling auto-save
-        disabling = nil, -- ran when disabling auto-save
-        before_asserting_save = nil, -- ran before checking `condition`
-        before_saving = nil, -- ran before doing the actual save
-        after_saving = nil, -- ran after doing the actual save
-      },
-    },
-  },
+  -- {
+  --   'Pocco81/auto-save.nvim',
+  --   opts = {
+  --     enabled = true, -- start auto-save when the plugin is loaded (i.e. when your package manager loads it)
+  --     execution_message = {
+  --       message = function() -- message to print on save
+  --         return ('AutoSave: saved at ' .. vim.fn.strftime '%H:%M:%S')
+  --       end,
+  --       dim = 0.18, -- dim the color of `message`
+  --       cleaning_interval = 1250, -- (milliseconds) automatically clean MsgArea after displaying `message`. See :h MsgArea
+  --     },
+  --     trigger_events = { 'InsertLeave', 'TextChanged' }, -- vim events that trigger auto-save. See :h events
+  --     -- function that determines whether to save the current buffer or not
+  --     -- return true: if buffer is ok to be saved
+  --     -- return false: if it's not ok to be saved
+  --     condition = function(buf)
+  --       local fn = vim.fn
+  --       local utils = require 'auto-save.utils.data'
+  --
+  --       if fn.getbufvar(buf, '&modifiable') == 1 and utils.not_in(fn.getbufvar(buf, '&filetype'), {}) then
+  --         return true -- met condition(s), can save
+  --       end
+  --       return false -- can't save
+  --     end,
+  --     write_all_buffers = false, -- write all buffers when the current one meets `condition`
+  --     debounce_delay = 135, -- saves the file at most every `debounce_delay` milliseconds
+  --     callbacks = { -- functions to be executed at different intervals
+  --       enabling = nil, -- ran when enabling auto-save
+  --       disabling = nil, -- ran when disabling auto-save
+  --       before_asserting_save = nil, -- ran before checking `condition`
+  --       before_saving = nil, -- ran before doing the actual save
+  --       after_saving = nil, -- ran after doing the actual save
+  --     },
+  --   },
+  -- },
   {
     'kevinhwang91/nvim-ufo',
     requires = 'kevinhwang91/promise-async',
@@ -940,29 +979,28 @@ require('lazy').setup({
         -- No, but seriously. Please read `:help ins-completion`, it is really good!
         mapping = cmp.mapping.preset.insert {
           -- Select the [n]ext item
-          ['<C-n>'] = cmp.mapping.select_next_item(),
+          -- ['<C-n>'] = cmp.mapping.select_next_item(),
           -- Select the [p]revious item
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
+          -- ['<C-p>'] = cmp.mapping.select_prev_item(),
 
           -- Scroll the documentation window [b]ack / [f]orward
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+          -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
 
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          -- ['<C-y>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
-          --['<CR>'] = cmp.mapping.confirm { select = true },
-          --['<Tab>'] = cmp.mapping.select_next_item(),
-          --['<S-Tab>'] = cmp.mapping.select_prev_item(),
-
+          ['<CR>'] = cmp.mapping.confirm { select = true },
+          ['<Tab>'] = cmp.mapping.select_next_item(),
+          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
           --  completions whenever it has completion options available.
-          ['<C-Space>'] = cmp.mapping.complete {},
+          -- ['<C-Space>'] = cmp.mapping.complete {},
 
           -- Think of <c-l> as moving to the right of your snippet expansion.
           --  So if you have a snippet that's like:
@@ -1018,8 +1056,13 @@ require('lazy').setup({
     end,
   },
 
-  -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  -- Highlight godo, notes, etc in comments
+  {
+    'folke/todo-comments.nvim',
+    event = 'VimEnter',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    opts = { signs = false },
+  },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
