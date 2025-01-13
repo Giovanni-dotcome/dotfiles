@@ -91,6 +91,16 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
 
+-- Configure indentation for HTML files with vim-sleuth in Lua
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'html',
+  callback = function()
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+    vim.opt_local.expandtab = true
+  end,
+})
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -235,6 +245,42 @@ require('lazy').setup({
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'kevinhwang91/promise-async',
   'jiangmiao/auto-pairs',
+  {
+    'tronikelis/ts-autotag.nvim',
+    opts = {
+      -- Insert your custom configuration here
+      opening_node_types = {
+        'tag_start', -- templ
+        'STag', -- xml
+        'start_tag', -- html
+        'jsx_opening_element', -- jsx
+      },
+      identifier_node_types = {
+        'tag_name', -- html
+        'erroneous_end_tag_name', -- html
+        'Name', -- xml
+        'member_expression', -- jsx
+        'identifier', -- jsx
+        'element_identifier', -- templ
+      },
+      disable_in_macro = true, -- Disable in macros
+      auto_close = {
+        enabled = true, -- Enable auto-close
+      },
+      auto_rename = {
+        enabled = true, -- Enable auto-rename
+        closing_node_types = {
+          'jsx_closing_element', -- jsx
+          'Etag', -- xml
+          'end_tag', -- html
+          'erroneous_end_tag', -- html
+          'tag_end', -- templ
+        },
+      },
+    },
+    event = 'VeryLazy', -- Load on very lazy event
+    ft = { 'html', 'jsx' }, -- Optionally load for specific file types like jsx/html
+  },
   {
     'ThePrimeagen/harpoon',
     branch = 'harpoon2',
@@ -1107,7 +1153,22 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = {
+        'bash',
+        'c',
+        'css',
+        'javascript',
+        'typescript',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
